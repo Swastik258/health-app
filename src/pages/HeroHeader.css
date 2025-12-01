@@ -1,0 +1,65 @@
+.hero-header {
+  position: relative;
+  background-color: #111; /* fallback */
+}
+
+.hero-header p {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* Slider.css */
+
+/* Base Styles (for all screen sizes, including desktop) */
+.slick-slider {
+  padding: 20px 0;
+}
+
+.slick-list {
+  margin: 0 -10px; /* Adjust for padding on each slide */
+}
+
+.slick-slide > div {
+  padding: 0 10px; /* Adds space between slides */
+}
+
+.feature-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 25px 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.feature-icon {
+  font-size: 2rem; /* Adjusted for consistency */
+  margin-bottom: 0.5rem;
+  color: #0d6efd; /* Use a color variable or a specific hex code */
+}
+
+.feature-label {
+  color: #212529; /* Use a color variable or a specific hex code */
+}
+
+/* Mobile Responsiveness (for screens up to 767.98px) */
+@media (max-width: 767.98px) {
+  /* Adjust the spacing for mobile */
+  .slick-list {
+    margin: 0 -5px;
+  }
+
+  .slick-slide > div {
+    padding: 0 5px;
+  }
+  
+  .feature-card {
+    padding: 20px 10px; /* Reduce padding on cards for smaller screens */
+  }
+
+  .feature-icon {
+    font-size: 1.5rem; /* Make icons slightly smaller on mobile */
+  }
+}

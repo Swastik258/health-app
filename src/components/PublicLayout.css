@@ -1,0 +1,148 @@
+/* PublicLayout.css */
+
+.nav-link {
+  color: white;
+}
+.nav-link:hover {
+  color: rgb(241, 241, 241) !important;
+  font-weight: 600;
+}
+/* Mega Menu Container */
+.mega-menu-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(5px);
+  z-index: 1040;
+  display: flex;
+  padding-top: 56px; /* Space for the fixed navbar */
+  overflow-y: auto;
+}
+
+#close-mega-menu {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 2rem;
+  color: #303030;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* General column styles for both desktop and mobile */
+.mega-menu-content {
+  width: 100%;
+  height: 100%;
+}
+
+.mega-menu-column {
+  padding: 2rem;
+  border-right: 1px solid #ffffff;
+}
+
+.mega-menu-column:last-child {
+  border-right: none;
+}
+
+.mega-menu-column h6 {
+  color: #002254;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-size: larger;
+  text-decoration: underline;
+}
+
+.category-item,
+.product-item a {
+  cursor: pointer;
+  padding: 8px 0;
+  transition: all 0.2s ease-in-out;
+  color: #212529;
+  text-decoration: none;
+  display: block;
+}
+
+.category-item:hover,
+.product-item a:hover {
+  color: #000000;
+  transform: translateX(5px);
+}
+
+.active-category {
+  color: #002865;
+  font-weight: bold;
+}
+
+.branding-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+}
+
+/* -------------------------------------- */
+/* Mobile-specific styles (on screens less than 768px) */
+/* -------------------------------------- */
+@media (max-width: 767.98px) {
+  /* Main container now has full-height columns inside */
+  .mega-menu-container {
+    padding-top: 56px;
+  }
+
+  /* Stack columns vertically and remove borders on mobile */
+  .mega-menu-column {
+    padding: 1rem;
+    border-right: none;
+  }
+
+  .mega-menu-column#branding-column {
+    display: none;
+  }
+
+  /* Styling for mobile category items */
+  .category-item {
+    border-bottom: 1px solid #f5faff;
+    padding: 1rem 0;
+    cursor: pointer;
+    font-size: 1.1rem;
+  }
+
+  .category-item:last-of-type {
+    border-bottom: none;
+  }
+}
+
+
+.frame-container {
+  position: relative;
+  display: inline-block;
+}
+
+.framed-image {
+  width: 300px; /* adjust as needed */
+  height: auto;
+  border-radius: 12px;
+  border: 3px solid #fff; /* main border */
+  position: relative;
+  z-index: 2;
+}
+
+/* Offset border */
+.frame-container::after {
+  content: "";
+  position: absolute;
+  top: -10px;   /* move top */
+  left: -10px;  /* move left */
+  width: 100%;
+  height: 95%;
+  border: 3px solid #575757; /* secondary border */
+  border-radius: 12px;
+  z-index: 1;
+}
+

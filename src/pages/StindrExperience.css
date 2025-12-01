@@ -1,0 +1,169 @@
+/* StindrExperience.css */
+
+/* Main wrapper for the animation section */
+.animation-wrapper {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Hide the parts of the animation that go off-screen */
+}
+
+/* Text content box (the center circle) */
+.text-content-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #006774;
+  color: #fff;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  animation: pulse 2s infinite;
+  z-index: 2;
+}
+
+/* Pseudo-element for the pulsing border effect */
+.text-content-box::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgba(255, 255, 255, 0.5); /* Semi-transparent border */
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  animation: pulsingBorder 10s ease-in-out infinite; /* Loop the animation */
+  animation-delay: 1s; /* Start after the content has settled */
+}
+
+/* Icon Animation Container */
+.icon-animation-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  animation: zoomAndSlide 3s ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+/* Adjusted icon size and color */
+.animated-icon {
+  font-size: 48px;
+  color: #006774 !important;
+  text-shadow: 0 0 10px rgba(0, 103, 116, 0.6); /* Add highlight */
+}
+
+.animated-icon svg {
+  color: #006774 !important;
+}
+
+/* -------------------------------------- */
+/* Animations */
+/* -------------------------------------- */
+
+/* Pulse animation for the text box */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 103, 116, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(0, 103, 116, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 103, 116, 0);
+  }
+}
+
+/* Desktop Animations */
+@keyframes pulsingBorder {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% - 250px), -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes zoomAndSlide {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+  }
+  25% {
+    transform: translate(calc(50% + 200px), -50%) scale(1.5);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(calc(50% + 200px), -50%) scale(1.5);
+    opacity: 1;
+  }
+  75% {
+    transform: translate(calc(-50% + 200px), -50%) scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+}
+
+/* -------------------------------------- */
+/* Mobile-specific animations (for screens <= 767.98px) */
+/* -------------------------------------- */
+@media (max-width: 767.98px) {
+  .text-content-box {
+    /* Adjust text box size for mobile to give more space */
+    width: 150px;
+    height: 150px;
+  }
+  
+  /* Redefine the animations for mobile to use smaller translate values */
+  @keyframes pulsingBorder {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    100% {
+      /* Adjust the leftward movement for smaller screens */
+      transform: translate(calc(-50% - 100px), -50%) scale(1.5);
+      opacity: 0;
+    }
+  }
+
+  @keyframes zoomAndSlide {
+    0% {
+      transform: translate(-50%, -50%) scale(0.5);
+      opacity: 0;
+    }
+    25% {
+      /* Adjust the rightward movement for smaller screens */
+      transform: translate(calc(50% + 100px), -50%) scale(1.5);
+      opacity: 1;
+    }
+    50% {
+      transform: translate(calc(50% + 100px), -50%) scale(1.5);
+      opacity: 1;
+    }
+    75% {
+      /* Adjust the return movement for smaller screens */
+      transform: translate(calc(-50% + 100px), -50%) scale(0.5);
+      opacity: 0;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+    }
+  }
+}

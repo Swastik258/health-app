@@ -1,0 +1,46 @@
+.left-side-menu {
+  height: 100%;
+  border-right: 1px solid #ddd;
+}
+.left-side-menu li {
+  border-top: #ddd solid 1px;
+  padding: 5px 0;
+}
+.left-side-menu li a {
+  color: rgb(255, 255, 255);
+}
+.nav-link:hover {
+  color: #444 !important;
+}
+
+.bg-light-blue {
+  --bs-bg-opacity: 1;
+  background-color: #f6f6f6 !important;
+}
+.dashboard-menu .nav-link {
+  color: #000 !important;
+}
+.link-design {
+  color: #0000c8;
+  text-decoration: underline;
+}
+.modal-header {
+  background: #ffffff;
+  color: #000;
+}
+.modal-content {
+  color: #000 !important;
+}
+.list-group-item {
+  font-size: larger !important;
+  background: aliceblue;
+  color: #345b78;
+}
+
+.text-light-green {
+  color: aquamarine;
+}
+
+a.nav-link label {
+  cursor: pointer;
+}

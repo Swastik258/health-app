@@ -1,0 +1,148 @@
+.hiv-lab-test-page {
+  width: 100%;
+}
+
+/* 1. Header Section (auto height, dark background) */
+.section-header {
+  background-color: #121212;
+}
+
+/* 2. Gradient background section */
+.section-tests {
+  background: radial-gradient(
+      50% 132.32% at 50% 50%,
+      rgba(0, 204, 189, 0.2) 0px,
+      rgba(0, 204, 189, 0) 100%
+    ),
+    #ffffff;
+}
+.section-order {
+  background: radial-gradient(
+      50% 132.32% at 50% 50%,
+      rgba(255, 246, 240, 0.2) 0px,
+      rgba(0, 204, 189, 0) 100%
+    ),
+    #ffffff;
+}
+
+.section-order .text-info {
+  color: #00c9bd !important;
+}
+
+.section-order img {
+  transition: transform 0.3s ease;
+}
+
+.section-order img:hover {
+  transform: scale(1.05);
+}
+
+/* 3. Steps section */
+.section-steps {
+  background-color: #2c2c2c;
+}
+
+.card-img-top {
+  height: 220px;
+  object-fit: cover;
+}
+
+.card:hover {
+  transform: scale(1.02);
+  transition: 0.3s ease-in-out;
+}
+
+.section-testimonials {
+  background-color: #1c1c1c;
+}
+
+.testimonial-card {
+  border-left: 4px solid #0dcaf0;
+  transition: transform 0.2s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+}
+
+.section-faq .accordion-button {
+  background-color: #f8f9fa;
+  color: #212529;
+  font-weight: 500;
+}
+
+.section-faq .accordion-button:focus {
+  box-shadow: none;
+}
+
+.section-faq .accordion-item {
+  border: 1px solid #dee2e6;
+  margin-bottom: 1rem;
+}
+
+.section-steps img {
+  width: 64px;
+  height: 64px;
+}
+
+.bg-light-yellow {
+  background-color: #fff9db;
+}
+
+.testimonial-scroll-wrapper {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 1rem;
+}
+
+.testimonial-card {
+  flex: 0 0 auto;
+  width: 300px;
+  scroll-snap-align: start;
+  transition: transform 0.3s;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Optional scrollbar hide for better UX */
+.testimonial-scroll-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.section-tests {
+  background: white; /* white base */
+  color: #212529;
+}
+
+.section-tests h3 {
+  color: #0d6efd; /* Bootstrap info blue */
+  font-size: 2.5rem;
+  line-height: 63px;
+  font-weight: 700;
+  background: linear-gradient(0deg, #494949, #6f6f6f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-tests .card {
+  transition: transform 0.2s ease;
+}
+
+.section-tests .card:hover {
+  transform: translateY(-5px);
+}
+
+.section-tests .btn-outline-dark:hover {
+  background-color: #0d6efd;
+  color: #fff;
+  border-color: #0d6efd;
+}
+.section-white h3{
+  font-size: 2.5rem;
+  line-height: 63px;
+  font-weight: 700;
+}

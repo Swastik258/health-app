@@ -1,0 +1,104 @@
+.lexa-chatbox {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50%;
+  height: 70%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 9999;
+}
+
+@media (max-width: 767.98px) {
+  .lexa-chatbox {
+    width: 90%;
+    height: 90%;
+  }
+}
+
+.lexa-chatbox.open {
+  display: flex;
+}
+
+.chat-header {
+  background: #000000;
+  color: #fff;
+  padding: 12px 16px;
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-body {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background: #f8f9fa;
+
+  /* key: stack messages and allow row-level alignment */
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* optional: space between messages */
+}
+
+.message {
+  /* key: make each message a row so we can align left/right */
+  display: flex;
+}
+
+.message.user {
+  justify-content: flex-end;   /* push bubble to the right */
+}
+
+.message.lexa {
+  justify-content: flex-start; /* push bubble to the left */
+}
+
+/* Bubble itself (your inner <span>) */
+.message > span {
+  padding: 8px 12px;
+  border-radius: 15px;
+  display: inline-block;
+  max-width: 75%;
+  word-break: break-word;
+}
+
+.message.user > span {
+  background: #007bff;
+  color: #fff;
+}
+
+.message.lexa > span {
+  background: #e9ecef;
+  color: #333;
+}
+
+.chat-footer {
+  display: flex;
+  gap: 4px;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.lexa-toggle-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #000000;
+  color: white;
+    border: 2px #fff solid;
+  border-radius: 30px;
+  padding: 10px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.btn-close {
+  filter: brightness(0) invert(1); /* Inverts black close icon to white */
+}
