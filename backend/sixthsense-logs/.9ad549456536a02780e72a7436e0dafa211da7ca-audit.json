@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 7
+    },
+    "auditLog": "sixthsense-logs\\.9ad549456536a02780e72a7436e0dafa211da7ca-audit.json",
+    "files": [
+        {
+            "date": 1764584164680,
+            "name": "sixthsense-logs\\sixthsense.log.2025-12-01",
+            "hash": "d14abafee41bb87e439dac3eae13dcd44147c185da561e3ba4431afeb465dc70"
+        }
+    ],
+    "hashType": "sha256"
+}

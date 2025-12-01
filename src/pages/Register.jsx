@@ -1,94 +1,74 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./Dashboard.css";
 
 function Register() {
-  const apiUrl = process.env.REACT_APP_API_URL;
-  const appId = process.env.REACT_APP_PROJECT_ID;
+  const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
   const navigate = useNavigate();
 
   // Form states
-  const [countryCode, setCountryCode] = useState("+91");
-  const [phone, setPhone] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState({});
 
-  // Same list from your login page
-  const countryCodes = [
-    { code: "+1", flag: "🇺🇸" },
-    { code: "+44", flag: "🇬🇧" },
-    { code: "+91", flag: "🇮🇳" },
-    { code: "+61", flag: "🇦🇺" },
-    { code: "+81", flag: "🇯🇵" },
-    { code: "+49", flag: "🇩🇪" },
-    { code: "+33", flag: "🇫🇷" },
-    { code: "+86", flag: "🇨🇳" },
-    { code: "+971", flag: "🇦🇪" },
-    { code: "+92", flag: "🇵🇰" },
-    { code: "+880", flag: "🇧🇩" },
-    { code: "+966", flag: "🇸🇦" },
-    { code: "+234", flag: "🇳🇬" },
-    { code: "+27", flag: "🇿🇦" },
-    { code: "+7", flag: "🇷🇺" },
-    { code: "+82", flag: "🇰🇷" },
-    { code: "+62", flag: "🇮🇩" },
-    { code: "+855", flag: "🇰🇭" },
-    { code: "+84", flag: "🇻🇳" },
-    { code: "+63", flag: "🇵🇭" },
-    { code: "+60", flag: "🇲🇾" },
-    { code: "+65", flag: "🇸🇬" },
-    { code: "+852", flag: "🇭🇰" },
-    { code: "+39", flag: "🇮🇹" },
-    { code: "+34", flag: "🇪🇸" },
-    { code: "+351", flag: "🇵🇹" },
-    { code: "+90", flag: "🇹🇷" },
-    { code: "+55", flag: "🇧🇷" },
-    { code: "+54", flag: "🇦🇷" },
-    { code: "+52", flag: "🇲🇽" },
-    { code: "+20", flag: "🇪🇬" },
-  ];
-
-  // Send OTP
-  const sendOtp = async () => {
-    if (!phone.trim()) {
-      setMessage("Please enter your phone number.");
-      return;
-    }
-
-    setLoading(true);
-    setMessage("");
-
-    try {
-      const fullPhone = `${countryCode}${phone}`;
-      const encodedPhone = encodeURIComponent(fullPhone);
-      const url = `${apiUrl}/SendPhoneVerificationTokenWhileRegistration?PhoneNumber=${encodedPhone}&ApplicationId=${appId}`;
-
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data.status) {
-        setOtpSent(true);
-        setMessage("OTP sent successfully!");
-      } else {
-        throw new Error(data.reason || "Failed to send OTP.");
-      }
-    } catch (err) {
-      setMessage(err.message);
-    } finally {
-      setLoading(false);
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: ""
+      });
     }
   };
 
-  // Verify OTP and Register
-  const verifyAndRegister = async () => {
-    if (!otp.trim() || !firstName.trim() || !lastName.trim()) {
-      setMessage("Please fill all required fields.");
+  // Form validation
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    }
+    
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is invalid";
+    }
+    
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+    
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      setMessage("Please fix the errors above.");
       return;
     }
 
@@ -96,147 +76,196 @@ function Register() {
     setMessage("");
 
     try {
-      const fullPhone = `${countryCode}${phone}`;
-      const query = new URLSearchParams({
-        FirstName: firstName,
-        LastName: lastName,
-        Phone: fullPhone,
-        Country: "India",
-        ApplicationId: appId,
-        CreatedDate: new Date().toISOString(),
-        Token: otp,
-        ClientId: crypto.randomUUID(),
-        Isocode: "IN",
-        TimeZoneId: "Asia/Kolkata",
-        TimeZone: "Asia/Kolkata",
-        DeviceName: "Web Browser",
-        DeviceOsType: navigator.platform,
-        DeviceOsVersion: navigator.userAgent,
-        AppVersion: "1.0",
+      const response = await fetch(`${apiUrl}/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password
+        }),
       });
 
-      const response = await fetch(
-        `${apiUrl}/VerifyPhoneNumberwhileRegistration?${query}`,
-        { method: "GET" }
-      );
-
       const data = await response.json();
-      if (data && data.accessToken) {
-        localStorage.setItem("token", data.accessToken);
-        localStorage.setItem("userId", data.id);
-        localStorage.setItem("userDetail", JSON.stringify(data));
 
-        navigate("/dashboard");
+      if (response.ok && data.success) {
+        // Store token and user data
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        
+        setMessage("Registration successful! Redirecting...");
+        
+        // Redirect to dashboard after 2 seconds
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 2000);
       } else {
-        throw new Error("Verification failed. Please check your OTP.");
+        setMessage(data.message || "Registration failed");
       }
-    } catch (err) {
-      setMessage(err.message);
+    } catch (error) {
+      setMessage("Error connecting to server. Please try again.");
+      console.error("Registration error:", error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="d-flex flex-column min-vh-60">
+    <div className="d-flex flex-column min-vh-100 bg-light">
       {/* Header Section */}
-      <div className="text-center py-4">
-        <h2 className="mb-1 h2">Create Account</h2>
-        <p className="mb-0 fw-bolder">to get started with Stindr</p>
+      <div className="text-center py-5 bg-white shadow-sm">
+        <h1 className="mb-3 text-primary">Stindr</h1>
+        <h2 className="mb-2 h3">Create Your Account</h2>
+        <p className="text-muted">Join our community today</p>
       </div>
 
       {/* Form Section */}
-      <div className="container flex-grow-1 d-flex justify-content-center align-items-center">
+      <div className="container flex-grow-1 d-flex justify-content-center align-items-center py-5">
         <div className="row w-100 justify-content-center">
-          <div className="col-md-6 col-lg-5 bg-white p-4 rounded shadow-sm">
-            {!otpSent ? (
-              <>
-                <h5 className="mb-4 text-muted">
-                  Enter your phone number to receive an
-                  <span className="text-blue fw-bold"> OTP </span> and register
-                  on Stindr.
-                </h5>
+          <div className="col-md-6 col-lg-5">
+            <div className="card shadow border-0">
+              <div className="card-body p-4 p-md-5">
+                <h3 className="card-title text-center mb-4">Sign Up</h3>
+                
+                <form onSubmit={handleSubmit}>
+                  {/* Name Field */}
+                  <div className="mb-3">
+                    <label htmlFor="name" className="form-label">
+                      Full Name <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+                      id="name"
+                      name="name"
+                      placeholder="Enter your full name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      disabled={loading}
+                    />
+                    {errors.name && (
+                      <div className="invalid-feedback">{errors.name}</div>
+                    )}
+                  </div>
 
-                <div className="input-group mb-3">
-                  <select
-                    className="form-select"
-                    style={{ maxWidth: "100px" }}
-                    value={countryCode}
-                    onChange={(e) => setCountryCode(e.target.value)}
-                  >
-                    {countryCodes.map((c) => (
-                      <option key={c.code} value={c.code}>
-                        {c.flag} {c.code}
-                      </option>
-                    ))}
-                  </select>
+                  {/* Email Field */}
+                  <div className="mb-3">
+                    <label htmlFor="email" className="form-label">
+                      Email Address <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                      id="email"
+                      name="email"
+                      placeholder="Enter your email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      disabled={loading}
+                    />
+                    {errors.email && (
+                      <div className="invalid-feedback">{errors.email}</div>
+                    )}
+                  </div>
 
-                  <input
-                    type="tel"
-                    className="form-control"
-                    placeholder="Enter phone number"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
-                </div>
+                  {/* Password Field */}
+                  <div className="mb-3">
+                    <label htmlFor="password" className="form-label">
+                      Password <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      type="password"
+                      className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+                      id="password"
+                      name="password"
+                      placeholder="Enter your password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      disabled={loading}
+                    />
+                    {errors.password && (
+                      <div className="invalid-feedback">{errors.password}</div>
+                    )}
+                    <small className="form-text text-muted">
+                      Password must be at least 6 characters long
+                    </small>
+                  </div>
 
-                <div className="d-grid">
-                  <button
-                    className="btn btn-blue"
-                    onClick={sendOtp}
-                    disabled={loading}
-                  >
-                    {loading ? "Sending..." : "Send OTP"}
-                  </button>
-                </div>
+                  {/* Confirm Password Field */}
+                  <div className="mb-4">
+                    <label htmlFor="confirmPassword" className="form-label">
+                      Confirm Password <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      type="password"
+                      className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`}
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      placeholder="Confirm your password"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      disabled={loading}
+                    />
+                    {errors.confirmPassword && (
+                      <div className="invalid-feedback">{errors.confirmPassword}</div>
+                    )}
+                  </div>
 
-                <div className="pt-3">
-                  Already have an account? <a href="/login">Sign In</a>
-                </div>
-              </>
-            ) : (
-              <>
-                <h5 className="mb-4 text-muted">
-                  Enter your details and the OTP sent to your phone.
-                </h5>
+                  {/* Submit Button */}
+                  <div className="d-grid mb-3">
+                    <button
+                      type="submit"
+                      className="btn btn-primary btn-lg"
+                      disabled={loading}
+                    >
+                      {loading ? (
+                        <>
+                          <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                          Registering...
+                        </>
+                      ) : (
+                        "Create Account"
+                      )}
+                    </button>
+                  </div>
 
-                <input
-                  type="text"
-                  className="form-control mb-3"
-                  placeholder="First Name"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
+                  {/* Message Display */}
+                  {message && (
+                    <div className={`alert ${message.includes('successful') ? 'alert-success' : 'alert-danger'} mt-3`}>
+                      {message}
+                    </div>
+                  )}
 
-                <input
-                  type="text"
-                  className="form-control mb-3"
-                  placeholder="Last Name"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
+                  {/* Divider */}
+                  <div className="text-center my-4">
+                    <hr className="w-50 mx-auto" />
+                    <span className="px-3 text-muted">OR</span>
+                  </div>
 
-                <input
-                  type="text"
-                  className="form-control mb-3"
-                  placeholder="Enter OTP"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                />
+                  {/* Login Link */}
+                  <div className="text-center">
+                    <p className="mb-0">
+                      Already have an account?{" "}
+                      <a href="/login" className="text-decoration-none fw-bold">
+                        Sign In
+                      </a>
+                    </p>
+                  </div>
+                </form>
+              </div>
+            </div>
 
-                <div className="d-grid">
-                  <button
-                    className="btn btn-blue"
-                    onClick={verifyAndRegister}
-                    disabled={loading}
-                  >
-                    {loading ? "Verifying..." : "Verify & Register"}
-                  </button>
-                </div>
-              </>
-            )}
-
-            {message && <div className="mt-3 alert alert-info">{message}</div>}
+            {/* Terms and Conditions */}
+            <div className="text-center mt-4">
+              <small className="text-muted">
+                By creating an account, you agree to our{" "}
+                <a href="/terms" className="text-decoration-none">Terms of Service</a>{" "}
+                and{" "}
+                <a href="/privacy" className="text-decoration-none">Privacy Policy</a>
+              </small>
+            </div>
           </div>
         </div>
       </div>

@@ -1,0 +1,12 @@
+sixthsense:
+  service_name: HEALTH-DB
+  authentication: eyJhbGciOiJIUzI1NiJ9.eyJiaWxsaW5nX2lkIjoiMTUwNzNkZWYtNDhlZC00M2UwLTg0ODUtMjkyOTIzYzRiOTdiIiwidGVhbUlkIjoiY2RiMTM2ZTMtMjRhYi00N2VmLWIyYjAtYzZkY2U0YmFiNGQ2IiwiYXVkIjoib2FwIiwiaXNzIjoic2l4dGgtc2Vucy1hdXRoIiwiaWF0IjoxNzYzOTcxODUxfQ.kNyuahPftkOKjq6XIHVK6QKY9e40T4FF1UlyWzSvWiQ
+  sixthsense_backend: grpc-collector-observability.sixthsense.rakuten.com:443
+  secure: true
+  type: MG
+  database: admin
+  mongoDB: 
+    uri: mongodb://localhost:27017/stindr_database
+  queryLimit: 25
+  queryThresholdTime: 200
+  queryTimeOut: 10
