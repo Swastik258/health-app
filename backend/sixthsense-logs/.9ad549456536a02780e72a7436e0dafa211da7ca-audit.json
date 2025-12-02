@@ -9,6 +9,11 @@
             "date": 1764584164680,
             "name": "sixthsense-logs\\sixthsense.log.2025-12-01",
             "hash": "d14abafee41bb87e439dac3eae13dcd44147c185da561e3ba4431afeb465dc70"
+        },
+        {
+            "date": 1764651411764,
+            "name": "sixthsense-logs\\sixthsense.log.2025-12-02",
+            "hash": "317a5430e1903c6f6ac9b0edb130e36d3a08b5937b3b7c7da37d4b68b399c914"
         }
     ],
     "hashType": "sha256"

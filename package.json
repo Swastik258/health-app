@@ -30,9 +30,14 @@
 
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set PORT=3000 && react-scripts start",
+
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "tunnel": "ngrok http 3000",
+    "dev": "npm-run-all --parallel start tunnel",
+
+
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
