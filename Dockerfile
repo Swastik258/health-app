@@ -8,6 +8,9 @@ RUN npm install
 
 COPY . .
 
+COPY .npmrc .npmrc
+
+
 EXPOSE 3000
 
 CMD ["npm", "start", "--", "--host"]
