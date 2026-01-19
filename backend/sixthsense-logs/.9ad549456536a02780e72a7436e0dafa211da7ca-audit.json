@@ -6,19 +6,9 @@
     "auditLog": "sixthsense-logs\\.9ad549456536a02780e72a7436e0dafa211da7ca-audit.json",
     "files": [
         {
-            "date": 1764584164680,
-            "name": "sixthsense-logs\\sixthsense.log.2025-12-01",
-            "hash": "d14abafee41bb87e439dac3eae13dcd44147c185da561e3ba4431afeb465dc70"
-        },
-        {
-            "date": 1764651411764,
-            "name": "sixthsense-logs\\sixthsense.log.2025-12-02",
-            "hash": "317a5430e1903c6f6ac9b0edb130e36d3a08b5937b3b7c7da37d4b68b399c914"
-        },
-        {
-            "date": 1764742316647,
-            "name": "sixthsense-logs\\sixthsense.log.2025-12-03",
-            "hash": "e21b0d3aef94a5e223b81094b0fffd31eb0a0b8b694c1de894ac9a95c4d8cb80"
+            "date": 1768802672927,
+            "name": "sixthsense-logs\\sixthsense.log.2026-01-19",
+            "hash": "7f0116fb85f4e3b6706501fe2f762bf509506140440d8182fa0c0cff88bc3a0e"
         }
     ],
     "hashType": "sha256"
